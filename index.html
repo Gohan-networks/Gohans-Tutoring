@@ -4,18 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="tab-title">Gohan's Hub free stash games, movies, chat</title>
-    <link id="tab-icon" rel="icon" type="image/png" href="https://wikimedia.org">
+    <link id="tab-icon" rel="icon" type="image/x-icon" href="files/favicon.ico">
     <style>
-        body, html { margin: 0; padding: 0; background-color: #000; color: #ffffff; font-family: 'Segoe UI', Arial, sans-serif; min-height: 100vh; cursor: none; overflow: hidden; }
+        body, html { margin: 0; padding: 0; background-color: #000; color: #cd0101; font-family: 'Segoe UI', Arial, sans-serif; min-height: 100vh; overflow: hidden; }
         #matrix { position: fixed; top: 0; left: 0; z-index: 1; }
-        #custom-cursor { width: 10px; height: 10px; background: white; border-radius: 50%; position: fixed; pointer-events: none; z-index: 99999; box-shadow: 0 0 10px white, 0 0 20px white; transform: translate(-50%, -50%); transition: transform 0.05s ease-out; }
 
         /* INTRO OVERLAY */
         #intro-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 1s ease-in-out; }
         .intro-text { font-size: 4rem; font-weight: bold; display: flex; gap: 15px; }
-        .slide-gohan { color: #fff; transform: translateX(-100vw); animation: slideIn 1s forwards; }
-        .slide-tutoring { color: #bec2cb; transform: translateX(100vw); animation: slideIn 1s 0.3s forwards; }
-        .click-prompt { margin-top: 20px; color: #555; font-size: 1rem; animation: pulse 2s infinite; }
+        .slide-gohan { color: #cd0101; transform: translateX(-100vw); animation: slideIn 1s forwards; }
+        .slide-tutoring { color: #cd0101; transform: translateX(100vw); animation: slideIn 1s 0.3s forwards; }
+        .click-prompt { margin-top: 20px; color: #cd0101; font-size: 1rem; animation: pulse 2s infinite; }
         @keyframes slideIn { to { transform: translateX(0); } }
         @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
@@ -25,39 +24,118 @@
         /* HEADER UI */
         .header-ui { position: relative; width: 100%; padding-top: 5vh; }
         .logo-container img { width: 400px; max-width: 90%; height: auto; display: block; margin: 0 auto 10px auto; }
-        .settings-btn { position: absolute; top: 20px; right: 20px; background: #1f2833; border: 2px solid #bec2cb; color: white; padding: 10px 15px; border-radius: 10px; cursor: none; font-size: 1.2rem; }
-        .settings-btn:hover { background: #bec2cb; color: black; }
-
-        /* SETTINGS PANEL */
-        #settings-panel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 280px; background: rgba(31, 40, 51, 0.95); border: 2px solid #bec2cb; border-radius: 20px; z-index: 20001; padding: 20px; backdrop-filter: blur(10px); text-align: center; }
-        .setting-item { margin-bottom: 20px; text-align: left; }
-        .setting-item label { display: block; font-size: 0.9rem; color: #bec2cb; margin-bottom: 8px; }
-        .setting-item input { width: 100%; cursor: none; accent-color: #bec2cb; }
 
         /* TYPING TEXT */
-        .typing-wrapper { display: inline-block; text-align: left; font-weight: bold; color: #bec2cb; font-size: 1.2rem; min-height: 40px; }
-        .type-line { overflow: hidden; white-space: nowrap; border-right: 3px solid #bec2cb; width: 0; margin: 0; display: none; }
+        .typing-wrapper { display: inline-block; text-align: left; font-weight: bold; color: #cd0101; font-size: 1.2rem; min-height: 40px; }
+        .type-line { overflow: hidden; white-space: nowrap; border-right: 3px solid #cd0101; width: 0; margin: 0; display: none; }
         @keyframes typing { from { width: 0 } to { width: 100% } }
-        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #bec2cb } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #cd0101 } }
         .line-active { display: block; animation: typing 2s steps(25, end) forwards, blink-caret .75s step-end infinite; }
 
-        /* SEARCH BAR */
-        .search-container { margin: 40px 0; }
-        #gameSearch { width: 90%; max-width: 600px; padding: 15px 25px; background: rgba(31, 40, 51, 0.9); color: white; cursor: none; border: 2px solid #bec2cb; border-radius: 30px; outline: none; font-size: 1.1rem; }
+        /* SEARCH BAR & DROPDOWN */
+        .search-container { 
+            margin: 40px auto; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 15px; 
+            max-width: 800px; 
+            width: 90%; 
+        }
+        #gameSearch { 
+            flex: 1;
+            padding: 15px 25px; 
+            background: rgba(31, 40, 51, 0.9); 
+            color: #cd0101; 
+            border: 2px solid #cd0101; 
+            border-radius: 30px; 
+            outline: none; 
+            font-size: 1.1rem; 
+        }
+        #gameSearch::placeholder {
+            color: rgba(205, 1, 1, 0.6);
+        }
+        #categorySelect {
+            padding: 15px 20px;
+            background: rgba(31, 40, 51, 0.9);
+            color: #cd0101;
+            cursor: pointer;
+            border: 2px solid #cd0101;
+            border-radius: 30px;
+            outline: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        #categorySelect option {
+            background: #1f2833;
+            color: #cd0101;
+        }
 
-        /* GRID: 3 COLUMNS */
-        .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1100px; margin: 0 auto; padding-bottom: 100px; }
-        .game-box { background: rgba(31, 40, 51, 0.75); border-radius: 12px; overflow: hidden; border: 2px solid #bec2cb; text-decoration: none; color: white; cursor: none; transition: 0.3s; backdrop-filter: blur(5px); }
-        .game-box:hover { transform: translateY(-8px); box-shadow: 0 0 20px #bec2cb; }
-        .thumbnail { width: 100%; height: 160px; object-fit: cover; border-bottom: 2px solid #bec2cb; }
-        .game-name { padding: 15px; font-weight: bold; }
+        /* GRID: 4 COLUMNS */
+        .game-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; max-width: 1300px; margin: 0 auto; padding: 0 20px 100px 20px; }
+        .game-box { background: rgba(31, 40, 51, 0.75); border-radius: 12px; overflow: hidden; border: 2px solid #cd0101; text-decoration: none; color: #cd0101; cursor: pointer; transition: 0.3s; backdrop-filter: blur(5px); }
+        .game-box:hover { transform: translateY(-8px); box-shadow: 0 0 20px #cd0101; }
+        .thumbnail { width: 100%; height: 160px; object-fit: cover; border-bottom: 2px solid #cd0101; }
+        .game-name { padding: 15px; font-weight: bold; color: #cd0101; }
 
         /* RANDOM BOX STYLE */
-        .random-box { background: linear-gradient(45deg, #1f2833, #bec2cb); color: black !important; }
+        .random-box { background: linear-gradient(45deg, #1f2833, #3a0000); color: #cd0101 !important; }
 
-        /* PANIC BUTTON */
-        #panic-btn { position: fixed; bottom: 20px; right: 20px; padding: 10px 20px; background: #1f2833; border: 2px solid #bec2cb; color: #bec2cb; font-weight: bold; border-radius: 5px; z-index: 99999; cursor: none; }
-        #panic-btn:hover { background: #bec2cb; color: black; }
+        /* GAME VIEWER CONTAINER & TOP BAR */
+        #gameContainer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 999998;
+            flex-direction: column;
+        }
+        #gameTopBar {
+            width: 100%;
+            height: 50px;
+            background: #000;
+            border-bottom: 2px solid #cd0101;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+            flex-shrink: 0;
+        }
+        #gameTopBar img {
+            height: 36px;
+            width: auto;
+            object-fit: contain;
+        }
+        .top-bar-controls {
+            display: flex;
+            gap: 12px;
+        }
+        .top-bar-btn {
+            background: #111;
+            color: #cd0101;
+            border: 1px solid #cd0101;
+            padding: 6px 14px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-family: inherit;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .top-bar-btn:hover {
+            background: #cd0101;
+            color: #000;
+        }
+        #gameFrame {
+            width: 100%;
+            flex: 1;
+            border: none;
+            background: #000;
+        }
     </style>
 </head>
 <body>
@@ -67,46 +145,35 @@
         <p class="click-prompt">Click anywhere to enter</p>
     </div>
 
-    <div id="settings-panel">
-        <h3 style="color:#bec2cb; margin-top:0;">Settings</h3>
-        <div class="setting-item">
-            <label>Matrix Rain</label>
-            <button onclick="toggleMatrix()" style="width:100%; cursor:none; background:#1f2833; border:1px solid #bec2cb; color:white; padding:8px;">ON / OFF</button>
-        </div>
-        <div class="setting-item">
-            <label>Cursor Color</label>
-            <input type="color" id="cursorColor" value="#ffffff" oninput="changeCursorColor(this.value)">
-        </div>
-        <div class="setting-item">
-            <label>Matrix Speed</label>
-            <input type="range" min="10" max="100" value="30" oninput="changeMatrixSpeed(this.value)">
-        </div>
-        <button onclick="closeSettings()" style="background:none; border:none; color:#888; text-decoration:underline; cursor:none;">Close Settings</button>
-    </div>
-
-    <div id="panic-btn" onclick="panicMode()">PANIC</div>
-    <div id="custom-cursor"></div>
     <canvas id="matrix"></canvas>
 
     <div class="content-layer" id="main-site">
         <div class="header-ui">
-            <button class="settings-btn" onclick="openSettings()">⚙️ Settings</button>
             <div class="logo-container">
-                <img src="logoo.png" alt="Logo">
+                <img src="files/logo.jpeg" alt="Logo">
                 <div class="typing-wrapper"><p id="typeLine" class="type-line"></p></div>
             </div>
         </div>
 
-        <div class="search-container"><input type="text" id="gameSearch" placeholder="Search games..." onkeyup="filter()"></div>
+        <div class="search-container">
+            <input type="text" id="gameSearch" placeholder="Search games..." onkeyup="filter()">
+            <select id="categorySelect" onchange="switchCategory()">
+                <option value="games">Games</option>
+                <option value="apps">Apps</option>
+                <option value="browsers">Browsers</option>
+                <option value="chats">Chats</option>
+            </select>
+        </div>
         
-        <div class="game-grid" id="grid">
+        <!-- GAMES GRID -->
+        <div class="game-grid" id="grid-games">
             <!-- SLOT 1: RANDOM GAME -->
-            <a href="javascript:void(0)" onclick="pickRandomGame()" class="game-box random-box">
-                <div style="height: 160px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #000;">?</div>
-                <div class="game-name" style="color:#000;">RANDOM GAME</div>
+            <a href="javascript:void(0)" onclick="pickRandomItem('grid-games')" class="game-box random-box">
+                <div style="height: 160px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #cd0101;">?</div>
+                <div class="game-name">RANDOM GAME</div>
             </a>
 
-            <!-- SLOTS 2-70 -->
+            <!-- EXISTING GAMES -->
             <a href="1v1 LOL.html" class="game-box"><img src="1v1.jpeg" class="thumbnail"><div class="game-name">1v1 LOL</div></a>
             <a href="99 nights.html" class="game-box"><img src="99nights.webp" class="thumbnail"><div class="game-name">99 nights in the forest</div></a>
             <a href="2048.html" class="game-box"><img src="2048.jpg" class="thumbnail"><div class="game-name">2048</div></a>
@@ -122,7 +189,7 @@
             <a href="brawl stars.html" class="game-box"><img src="brawl.jpeg" class="thumbnail"><div class="game-name">brawl stars</div></a>
             <a href="brotato.html" class="game-box"><img src="brotato.jpg" class="thumbnail"><div class="game-name">brotato</div></a>
             <a href="crossy road.html" class="game-box"><img src="crossy.png" class="thumbnail"><div class="game-name">Crossy road</div></a>
-            <a href="dino game.html class" class="game-box"><img src="dino.jpeg" class="thumbnail"><div class="game-name">Dino Game</div></a>
+            <a href="dino game.html" class="game-box"><img src="dino.jpeg" class="thumbnail"><div class="game-name">Dino Game</div></a>
             <a href="dragon ball attack.html" class="game-box"><img src="attack.jpg" class="thumbnail"><div class="game-name">Dragon ball attack of sayians</div></a>
             <a href="dragon ball devolution.html" class="game-box"><img src="dbz dev.jpg" class="thumbnail"><div class="game-name">Dragon ball Z devolution</div></a>
             <a href="Dta 6.html" class="game-box"><img src="DTA.jpeg" class="thumbnail"><div class="game-name">DTA 6</div></a>
@@ -175,33 +242,303 @@
             <a href="tomb of mask.html" class="game-box"><img src="tomb of mask.png" class="thumbnail"><div class="game-name">Tomb of mask</div></a>
             <a href="epstien.html" class="game-box"><img src="epstien.jpg" class="thumbnail"><div class="game-name">FNAF at BIG E</div></a>
             <a href="shrek.html" class="game-box"><img src="shrek.jpeg" class="thumbnail"><div class="game-name">FNAF At Shrek</div></a>
+
+            <!-- EXTRA GAME SLOTS (69 - 200) -->
+            <a href="game69.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 69</div></a>
+            <a href="game70.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 70</div></a>
+            <a href="game71.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 71</div></a>
+            <a href="game72.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 72</div></a>
+            <a href="game73.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 73</div></a>
+            <a href="game74.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 74</div></a>
+            <a href="game75.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 75</div></a>
+            <a href="game76.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 76</div></a>
+            <a href="game77.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 77</div></a>
+            <a href="game78.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 78</div></a>
+            <a href="game79.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 79</div></a>
+            <a href="game80.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 80</div></a>
+            <a href="game81.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 81</div></a>
+            <a href="game82.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 82</div></a>
+            <a href="game83.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 83</div></a>
+            <a href="game84.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 84</div></a>
+            <a href="game85.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 85</div></a>
+            <a href="game86.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 86</div></a>
+            <a href="game87.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 87</div></a>
+            <a href="game88.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 88</div></a>
+            <a href="game89.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 89</div></a>
+            <a href="game90.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 90</div></a>
+            <a href="game91.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 91</div></a>
+            <a href="game92.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 92</div></a>
+            <a href="game93.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 93</div></a>
+            <a href="game94.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 94</div></a>
+            <a href="game95.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 95</div></a>
+            <a href="game96.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 96</div></a>
+            <a href="game97.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 97</div></a>
+            <a href="game98.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 98</div></a>
+            <a href="game99.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 99</div></a>
+            <a href="game100.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 100</div></a>
+            <a href="game101.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 101</div></a>
+            <a href="game102.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 102</div></a>
+            <a href="game103.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 103</div></a>
+            <a href="game104.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 104</div></a>
+            <a href="game105.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 105</div></a>
+            <a href="game106.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 106</div></a>
+            <a href="game107.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 107</div></a>
+            <a href="game108.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 108</div></a>
+            <a href="game109.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 109</div></a>
+            <a href="game110.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 110</div></a>
+            <a href="game111.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 111</div></a>
+            <a href="game112.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 112</div></a>
+            <a href="game113.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 113</div></a>
+            <a href="game114.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 114</div></a>
+            <a href="game115.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 115</div></a>
+            <a href="game116.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 116</div></a>
+            <a href="game117.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 117</div></a>
+            <a href="game118.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 118</div></a>
+            <a href="game119.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 119</div></a>
+            <a href="game120.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 120</div></a>
+            <a href="game121.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 121</div></a>
+            <a href="game122.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 122</div></a>
+            <a href="game123.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 123</div></a>
+            <a href="game124.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 124</div></a>
+            <a href="game125.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 125</div></a>
+            <a href="game126.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 126</div></a>
+            <a href="game127.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 127</div></a>
+            <a href="game128.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 128</div></a>
+            <a href="game129.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 129</div></a>
+            <a href="game130.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 130</div></a>
+            <a href="game131.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 131</div></a>
+            <a href="game132.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 132</div></a>
+            <a href="game133.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 133</div></a>
+            <a href="game134.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 134</div></a>
+            <a href="game135.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 135</div></a>
+            <a href="game136.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 136</div></a>
+            <a href="game137.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 137</div></a>
+            <a href="game138.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 138</div></a>
+            <a href="game139.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 139</div></a>
+            <a href="game140.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 140</div></a>
+            <a href="game141.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 141</div></a>
+            <a href="game142.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 142</div></a>
+            <a href="game143.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 143</div></a>
+            <a href="game144.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 144</div></a>
+            <a href="game145.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 145</div></a>
+            <a href="game146.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 146</div></a>
+            <a href="game147.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 147</div></a>
+            <a href="game148.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 148</div></a>
+            <a href="game149.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 149</div></a>
+            <a href="game150.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 150</div></a>
+            <a href="game151.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 151</div></a>
+            <a href="game152.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 152</div></a>
+            <a href="game153.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 153</div></a>
+            <a href="game154.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 154</div></a>
+            <a href="game155.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 155</div></a>
+            <a href="game156.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 156</div></a>
+            <a href="game157.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 157</div></a>
+            <a href="game158.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 158</div></a>
+            <a href="game159.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 159</div></a>
+            <a href="game160.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 160</div></a>
+            <a href="game161.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 161</div></a>
+            <a href="game162.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 162</div></a>
+            <a href="game163.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 163</div></a>
+            <a href="game164.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 164</div></a>
+            <a href="game165.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 165</div></a>
+            <a href="game166.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 166</div></a>
+            <a href="game167.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 167</div></a>
+            <a href="game168.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 168</div></a>
+            <a href="game169.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 169</div></a>
+            <a href="game170.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 170</div></a>
+            <a href="game171.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 171</div></a>
+            <a href="game172.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 172</div></a>
+            <a href="game173.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 173</div></a>
+            <a href="game174.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 174</div></a>
+            <a href="game175.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 175</div></a>
+            <a href="game176.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 176</div></a>
+            <a href="game177.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 177</div></a>
+            <a href="game178.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 178</div></a>
+            <a href="game179.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 179</div></a>
+            <a href="game180.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 180</div></a>
+            <a href="game181.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 181</div></a>
+            <a href="game182.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 182</div></a>
+            <a href="game183.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 183</div></a>
+            <a href="game184.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 184</div></a>
+            <a href="game185.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 185</div></a>
+            <a href="game186.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 186</div></a>
+            <a href="game187.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 187</div></a>
+            <a href="game188.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 188</div></a>
+            <a href="game189.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 189</div></a>
+            <a href="game190.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 190</div></a>
+            <a href="game191.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 191</div></a>
+            <a href="game192.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 192</div></a>
+            <a href="game193.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 193</div></a>
+            <a href="game194.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 194</div></a>
+            <a href="game195.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 195</div></a>
+            <a href="game196.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 196</div></a>
+            <a href="game197.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 197</div></a>
+            <a href="game198.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 198</div></a>
+            <a href="game199.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 199</div></a>
+            <a href="game200.html" class="game-box"><img src="placeholder.png" class="thumbnail"><div class="game-name">Game 200</div></a>
+        </div>
+
+        <!-- APPS GRID (15 CARDS) -->
+        <div class="game-grid" id="grid-apps" style="display: none;">
+            <a href="javascript:void(0)" onclick="pickRandomItem('grid-apps')" class="game-box random-box">
+                <div style="height: 160px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #cd0101;">?</div>
+                <div class="game-name">RANDOM APP</div>
+            </a>
+            <a href="app1.html" class="game-box"><img src="app1.png" class="thumbnail"><div class="game-name">App 1</div></a>
+            <a href="app2.html" class="game-box"><img src="app2.png" class="thumbnail"><div class="game-name">App 2</div></a>
+            <a href="app3.html" class="game-box"><img src="app3.png" class="thumbnail"><div class="game-name">App 3</div></a>
+            <a href="app4.html" class="game-box"><img src="app4.png" class="thumbnail"><div class="game-name">App 4</div></a>
+            <a href="app5.html" class="game-box"><img src="app5.png" class="thumbnail"><div class="game-name">App 5</div></a>
+            <a href="app6.html" class="game-box"><img src="app6.png" class="thumbnail"><div class="game-name">App 6</div></a>
+            <a href="app7.html" class="game-box"><img src="app7.png" class="thumbnail"><div class="game-name">App 7</div></a>
+            <a href="app8.html" class="game-box"><img src="app8.png" class="thumbnail"><div class="game-name">App 8</div></a>
+            <a href="app9.html" class="game-box"><img src="app9.png" class="thumbnail"><div class="game-name">App 9</div></a>
+            <a href="app10.html" class="game-box"><img src="app10.png" class="thumbnail"><div class="game-name">App 10</div></a>
+            <a href="app11.html" class="game-box"><img src="app11.png" class="thumbnail"><div class="game-name">App 11</div></a>
+            <a href="app12.html" class="game-box"><img src="app12.png" class="thumbnail"><div class="game-name">App 12</div></a>
+            <a href="app13.html" class="game-box"><img src="app13.png" class="thumbnail"><div class="game-name">App 13</div></a>
+            <a href="app14.html" class="game-box"><img src="app14.png" class="thumbnail"><div class="game-name">App 14</div></a>
+            <a href="app15.html" class="game-box"><img src="app15.png" class="thumbnail"><div class="game-name">App 15</div></a>
+        </div>
+
+        <!-- BROWSERS GRID (10 CARDS) -->
+        <div class="game-grid" id="grid-browsers" style="display: none;">
+            <a href="javascript:void(0)" onclick="pickRandomItem('grid-browsers')" class="game-box random-box">
+                <div style="height: 160px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #cd0101;">?</div>
+                <div class="game-name">RANDOM BROWSER</div>
+            </a>
+            <a href="browser1.html" class="game-box"><img src="browser1.png" class="thumbnail"><div class="game-name">Browser 1</div></a>
+            <a href="browser2.html" class="game-box"><img src="browser2.png" class="thumbnail"><div class="game-name">Browser 2</div></a>
+            <a href="browser3.html" class="game-box"><img src="browser3.png" class="thumbnail"><div class="game-name">Browser 3</div></a>
+            <a href="browser4.html" class="game-box"><img src="browser4.png" class="thumbnail"><div class="game-name">Browser 4</div></a>
+            <a href="browser5.html" class="game-box"><img src="browser5.png" class="thumbnail"><div class="game-name">Browser 5</div></a>
+            <a href="browser6.html" class="game-box"><img src="browser6.png" class="thumbnail"><div class="game-name">Browser 6</div></a>
+            <a href="browser7.html" class="game-box"><img src="browser7.png" class="thumbnail"><div class="game-name">Browser 7</div></a>
+            <a href="browser8.html" class="game-box"><img src="browser8.png" class="thumbnail"><div class="game-name">Browser 8</div></a>
+            <a href="browser9.html" class="game-box"><img src="browser9.png" class="thumbnail"><div class="game-name">Browser 9</div></a>
+            <a href="browser10.html" class="game-box"><img src="browser10.png" class="thumbnail"><div class="game-name">Browser 10</div></a>
+        </div>
+
+        <!-- CHATS GRID (2 CARDS) -->
+        <div class="game-grid" id="grid-chats" style="display: none;">
+            <a href="javascript:void(0)" onclick="pickRandomItem('grid-chats')" class="game-box random-box">
+                <div style="height: 160px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #cd0101;">?</div>
+                <div class="game-name">RANDOM CHAT</div>
+            </a>
+            <a href="chat1.html" class="game-box"><img src="chat1.png" class="thumbnail"><div class="game-name">Chat 1</div></a>
+            <a href="chat2.html" class="game-box"><img src="chat2.png" class="thumbnail"><div class="game-name">Chat 2</div></a>
         </div>
     </div>
 
-    <script>
-        // --- SETTINGS ---
-        function openSettings() { document.getElementById('settings-panel').style.display = 'block'; }
-        function closeSettings() { document.getElementById('settings-panel').style.display = 'none'; }
-        function toggleMatrix() { const c = document.getElementById('matrix'); c.style.display = (c.style.display === 'none' ? 'block' : 'none'); }
-        function changeCursorColor(val) { const c = document.getElementById('custom-cursor'); c.style.background = val; c.style.boxShadow = `0 0 10px ${val}, 0 0 20px ${val}`; }
-        let matrixInterval;
-        function changeMatrixSpeed(val) { clearInterval(matrixInterval); matrixInterval = setInterval(drawMatrix, val); }
+    <!-- GAME ENGINE WITH TOP BAR -->
+    <div id="gameContainer">
+        <div id="gameTopBar">
+            <img src="files/logo.jpeg" alt="Logo">
+            <div class="top-bar-controls">
+                <button class="top-bar-btn" onclick="restartGame()">↻ Restart</button>
+                <button class="top-bar-btn" onclick="fullscreenGame()">⛶ Full Screen</button>
+                <button class="top-bar-btn" onclick="closeGame()">✕ Close</button>
+            </div>
+        </div>
+        <iframe id="gameFrame" src="" allowfullscreen></iframe>
+    </div>
 
-        // --- RANDOM GAME ---
-        function pickRandomGame() {
-            const boxes = Array.from(document.querySelectorAll('.game-box')).slice(1); // Exclude random box
-            const random = boxes[Math.floor(Math.random() * boxes.length)];
-            window.location.href = random.getAttribute('href');
+    <script>
+        const gameContainer = document.getElementById('gameContainer');
+        const gameFrame = document.getElementById('gameFrame');
+        let currentGameUrl = '';
+
+        // --- WIKIPEDIA REDIRECT ON ` KEY ---
+        function checkWikipediaRedirect(e) {
+            if (e.key === '`') {
+                e.preventDefault();
+                window.location.href = 'https://www.wikipedia.org';
+            }
+        }
+        window.addEventListener('keydown', checkWikipediaRedirect);
+
+        // --- CATEGORY SWITCHER ---
+        function switchCategory() {
+            const selected = document.getElementById('categorySelect').value;
+            const searchInput = document.getElementById('gameSearch');
+            
+            document.getElementById('grid-games').style.display = 'none';
+            document.getElementById('grid-apps').style.display = 'none';
+            document.getElementById('grid-browsers').style.display = 'none';
+            document.getElementById('grid-chats').style.display = 'none';
+            
+            document.getElementById('grid-' + selected).style.display = 'grid';
+            searchInput.placeholder = `Search ${selected}...`;
+            searchInput.value = '';
+            filter();
         }
 
-        // --- PANIC & CLOAK ---
-        function panicMode() { window.open("https://google.com", "_blank"); window.location.replace("chrome://new-tab-page"); }
+        // --- OPEN / CLOSE / RESTART / FULLSCREEN ---
+        function openGame(url) {
+            currentGameUrl = url;
+            gameFrame.src = url;
+            gameContainer.style.display = 'flex';
+        }
+
+        function closeGame() {
+            gameFrame.src = '';
+            currentGameUrl = '';
+            gameContainer.style.display = 'none';
+            if (document.fullscreenElement) {
+                document.exitFullscreen().catch(() => {});
+            }
+        }
+
+        function restartGame() {
+            if (currentGameUrl) {
+                gameFrame.src = currentGameUrl;
+            }
+        }
+
+        function fullscreenGame() {
+            if (!document.fullscreenElement) {
+                gameFrame.requestFullscreen().catch(err => {
+                    alert(`Fullscreen error: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // AUTOMATIC LINK HIJACKER
+        document.addEventListener('click', function(e) {
+            const link = e.target.closest('a');
+            if (link && link.getAttribute('href')) {
+                const url = link.getAttribute('href');
+                if (url !== 'javascript:void(0)') {
+                    e.preventDefault();
+                    openGame(url);
+                }
+            }
+        });
+
+        // Hook ` key inside active iframe as well
+        setInterval(() => {
+            try {
+                if (gameFrame.contentWindow && !gameFrame.dataset.hooked) {
+                    gameFrame.contentWindow.addEventListener('keydown', checkWikipediaRedirect);
+                    gameFrame.dataset.hooked = "true";
+                }
+            } catch (err) {}
+        }, 1000);
+
+        // --- RANDOM ITEM ---
+        function pickRandomItem(gridId) {
+            const grid = document.getElementById(gridId);
+            const boxes = Array.from(grid.querySelectorAll('.game-box')).slice(1); // Exclude random box
+            const random = boxes[Math.floor(Math.random() * boxes.length)];
+            const url = random.getAttribute('href');
+            openGame(url);
+        }
+
+        // --- TAB TITLE CLOAK ---
         window.addEventListener("blur", () => { document.title = "I-Ready Chosse subject"; });
         window.addEventListener("focus", () => { document.title = "Gohan's Tutoring | Unblocked Games"; });
-
-        // --- CURSOR ---
-        const cursor = document.getElementById('custom-cursor');
-        document.addEventListener('mousemove', (e) => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
 
         // --- TYPING TEXT ---
         const phrases = ["Cool Games", "Life is hard But im harder", "Gohan is awesome", "Il be helping noel make his site"];
@@ -224,7 +561,7 @@
             }
         }, { once: true });
 
-        // --- MATRIX ---
+        // --- MATRIX (#cd0101 at 50% transparency) ---
         const canvas = document.getElementById('matrix'); const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const chars = 'JOINMYDISCORDSERVERINTHELINKSITEILIKEDADDYEDUARDO';
@@ -232,7 +569,7 @@
         const drops = Array(Math.floor(columns)).fill(1);
         function drawMatrix() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#ffa442'; ctx.font = fontSize + 'px monospace';
+            ctx.fillStyle = 'rgba(205, 1, 1, 0.5)'; ctx.font = fontSize + 'px monospace';
             drops.forEach((y, i) => {
                 const text = chars[Math.floor(Math.random() * chars.length)];
                 ctx.fillText(text, i * fontSize, y * fontSize);
@@ -240,121 +577,34 @@
                 drops[i]++;
             });
         }
-        matrixInterval = setInterval(drawMatrix, 30);
+        setInterval(drawMatrix, 30);
 
         // --- SEARCH ---
         function filter() {
             let val = document.getElementById('gameSearch').value.toLowerCase();
-            let boxes = document.getElementsByClassName('game-box');
+            let activeCategory = document.getElementById('categorySelect').value;
+            let activeGrid = document.getElementById('grid-' + activeCategory);
+            let boxes = activeGrid.getElementsByClassName('game-box');
             Array.from(boxes).forEach(b => { 
                 let match = b.innerText.toLowerCase().includes(val) || b.getAttribute('href').toLowerCase().includes(val);
                 b.style.display = match ? "block" : "none"; 
             });
         }
         window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
-</script>
+    </script>
 
-<!-- THE "ZERO WORK" AUTOMATIC GAME ENGINE & PANIC SYSTEM -->
-<div id="gameContainer" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 999998;">
-    <button onclick="closeGame()" style="position: absolute; top: 10px; left: 10px; z-index: 999999; padding: 6px 12px; background: rgba(190, 195, 205, 0.15); color: rgb(190, 195, 205); border: 1px solid rgb(190, 195, 205); border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; font-family: monospace; text-transform: uppercase; letter-spacing: 1px; backdrop-filter: blur(4px); transition: all 0.2s ease; box-shadow: 0 0 10px rgba(190, 195, 205, 0.2);" onmouseover="this.style.background='rgb(190, 195, 205)'; this.style.color='#000';" onmouseout="this.style.background='rgba(190, 195, 205, 0.15)'; this.style.color='rgb(190, 195, 205)';">✕ Leave</button>
-    <iframe id="gameFrame" src="" style="width: 100%; height: 100%; border: none;"></iframe>
-</div>
-
-<style>
-    #imageOverlay {
-        position: fixed;
-        top: 0; left: 0;
-        width: 100vw; height: 100vh;
-        background: black;
-        z-index: 99999999;
-        display: none;
-    }
-    #imageOverlay img {
-        width: 100%; height: 100%;
-        object-fit: cover;
-    }
-</style>
-
-<div id="imageOverlay">
-    <img src="iready_math.jpg" alt="Screen Overlay">
-</div>
-
-<script>
-    const gameContainer = document.getElementById('gameContainer');
-    const gameFrame = document.getElementById('gameFrame');
-    const overlay = document.getElementById('imageOverlay');
-    let isCooldown = false;
-
-    // 1. AUTOMATIC LINK HIJACKER
-    document.addEventListener('click', function(e) {
-        const link = e.target.closest('a');
-        if (link && link.getAttribute('href')) {
-            const url = link.getAttribute('href');
-            
-            if (url.endsWith('.html') || url.includes('game')) {
-                e.preventDefault(); 
-                gameFrame.src = url; 
-                gameContainer.style.display = 'block'; 
+    <!-- AUTOMATIC FAVICON INJECTOR -->
+    <script>
+        (function() {
+            let favicon = document.querySelector("link[rel*='icon']");
+            if (!favicon) {
+                favicon = document.createElement('link');
+                favicon.rel = 'icon';
+                document.head.appendChild(favicon);
             }
-        }
-    });
-
-    function closeGame() {
-        gameFrame.src = '';
-        gameContainer.style.display = 'none';
-    }
-
-    // 2. PANIC TOGGLE LOGIC
-    function toggleOverlay(e) {
-        if (e.key === '`') {
-            e.preventDefault();
-            if (isCooldown) return;
-            
-            overlay.style.display = (overlay.style.display === 'block') ? 'none' : 'block';
-            
-            isCooldown = true;
-            setTimeout(() => { isCooldown = false; }, 3000);
-        }
-    }
-
-    window.addEventListener('keydown', toggleOverlay);
-
-    // 3. AUTOMATIC TAB-SWITCH VISIBILITY MONITOR (Extra Security)
-    document.addEventListener('visibilitychange', function() {
-        // If the user returns to this tab, instantly trigger the math overlay
-        if (document.visibilityState === 'visible') {
-            overlay.style.display = 'block';
-        }
-    });
-
-    // Track frame activity for keypress synchronization
-    setInterval(() => {
-        try {
-            if (gameFrame.contentWindow && !gameFrame.dataset.hooked) {
-                gameFrame.contentWindow.addEventListener('keydown', toggleOverlay);
-                gameFrame.dataset.hooked = "true";
-            }
-        } catch (err) {}
-    }, 1000);
-</script>
-
-<!-- AUTOMATIC FAVICON INJECTOR -->
-<script>
-    (function() {
-        // Find if a favicon link element already exists on the page
-        let favicon = document.querySelector("link[rel*='icon']");
-        
-        // If it doesn't exist, create a new link element
-        if (!favicon) {
-            favicon = document.createElement('link');
-            favicon.rel = 'icon';
-            document.head.appendChild(favicon);
-        }
-        
-        // Set the path to your image and assign the correct type
-        favicon.href = 'favicon.png';
-        favicon.type = 'image/png';
-    })();
-</script>
+            favicon.href = 'files/favicon.ico';
+            favicon.type = 'image/x-icon';
+        })();
+    </script>
 </body>
 </html>
